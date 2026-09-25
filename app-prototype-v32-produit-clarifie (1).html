@@ -267,13 +267,21 @@
   </div>
 
   <div class="screen" data-screen="seance" style="position:relative;">
-    <div id="seanceEmptyState" class="empty-state">
-      <div class="emoji">📋</div>
-      <p>Choisis un programme ou démarre une séance libre pour noter tes performances.</p>
-      <button class="btn secondary" onclick="goTo('accueil')">Voir mes séances</button>
-      <button class="btn secondary" style="margin-top:8px" onclick="goTo('assistant')">Ouvrir l'assistant</button>
-      <button class="btn secondary" style="margin-top:8px" onclick="goTo('progression')">Voir ma progression</button>
-    </div>
+   <div id="seanceEmptyState" class="empty-state">
+        <div class="emoji">🏋️</div>
+        <p>Sélectionnez un programme ou démarrez une séance libre pour noter vos performances.</p>
+        
+        <!-- ASSISTANT IA CONTEXTUEL DISCRET -->
+        <div class="card card-ai-contextual" style="margin-top: 1.5rem; border-left: 3px solid #A7C7E7; background: rgba(167, 199, 231, 0.1); border-radius: 8px; text-align: left;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1rem;">💡</span>
+                    <span style="font-size: 0.9rem; font-weight: 500; color: #4A7A96;">Besoin d'adapter une séance ?</span>
+                </div>
+                <button class="btn btn-text" style="font-size: 0.85rem; padding: 2px 8px; color: #4A7A96; background: none; border: none; cursor: pointer; font-weight: bold;" onclick="alert('L\'assistant IA va vous aider à adapter votre séance en fonction de votre état du jour !')">Demander à l'IA</button>
+           </div>
+</div>
+</div>
 
     <div id="dayPicker" style="display:none; flex:1; flex-direction:column; min-height:0;">
       <div class="scroll">
@@ -487,13 +495,18 @@
   // Une ligne de paramètre (RIR, repos, charge, cible...) ne doit JAMAIS devenir un exercice.
   // Cette règle est appliquée avant la création d'un nouvel exercice et aussi à la migration
   // des programmes déjà enregistrés avec une ancienne version du parseur.
-  function normalizeExerciseTitle(raw){
-    let s = stripEmoji(String(raw || '')).trim();
-    s = s.replace(/^[*•·\-]+\s*/, '').replace(/^\d+\s*[.)\-:]\s*/, '').trim();
-    s = s.replace(/^exercice\s*\d+\s*[:.)\-–—]?\s*/i, '').trim();
+  function normalizeExerciseTitle(raw) {
+    let s = stripeEmoji(String(raw || '')).trim();
+    s = s.replace(/^[\*•\-–—]\s*/, '').replace(/^\d+[\s\.\)\]\-–—:\s]*/, '').trim();
+ function normalizeExerciseTitle(raw) {
+    let s = stripeEmoji(String(raw || '')).trim();
+    s = s.replace(/^[\*•\-–—]\s*/, '').replace(/^\d+[\s\.\)\]\-–—:\s]*/, '').trim();
+    s = s.replace(/^exercice\s*\d*\s*[:\.\)\]\-–—]*\s*/i, '').trim();
+    s = s.replace(/\s+\d+\s*[x×*]\s*\d+.*$/i, '').trim();
+    s = s.replace(/\s+\d+\s*k*g.*$/i, '').trim();
     s = s.replace(/\s{2,}/g, ' ').trim();
     return s;
-  }
+}
   function metadataKind(line){
     const s = normalizeExerciseTitle(line);
     if (!s) return null;
