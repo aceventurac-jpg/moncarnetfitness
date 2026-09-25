@@ -205,6 +205,7 @@
 .context-help-link{display:inline-flex;align-items:center;gap:6px;margin-top:12px;border:0;background:none;color:var(--sage);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter';padding:4px 0}.context-help-link:hover{text-decoration:underline}.builder-advanced{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:14px;background:var(--surface)}.builder-advanced summary{cursor:pointer;font-size:12px;font-weight:700;color:var(--ink)}.builder-advanced summary span{font-weight:400;color:var(--ink-soft)}.builder-what-next{font-size:11px;line-height:1.45;color:#62584f;margin-top:8px}.builder-example{display:inline-block;background:var(--surface-alt);border-radius:999px;padding:6px 9px;font-size:10.5px;color:#62584f}.settings-modal{position:fixed;inset:0;background:rgba(43,36,31,.42);display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:100}.settings-modal.show{display:flex}.settings-box{width:min(100%,520px);background:var(--surface);border-radius:18px;padding:18px;box-shadow:0 18px 50px rgba(43,36,31,.18)}.settings-box h2{font-family:'Quicksand';margin:0 0 5px;font-size:20px}.settings-box p{font-size:12px;line-height:1.5;color:#62584f;margin:0 0 14px}.settings-actions{display:grid;gap:8px}.settings-close{margin-top:10px}.assistant-context-note{color:#62584f}.progression-welcome p{color:#62584f}.progression-welcome ul{color:#62584f}.subtitle{color:#62584f}
 @media(max-width:520px){.home-today-title{font-size:18px}}
 </style>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 <div class="app" id="app">
@@ -253,13 +254,7 @@
       </details>
       <div class="builder-field">
         <label>Ton programme, comme tu l’écris habituellement</label>
-        <textarea id="freeNoteInput" rows="10" placeholder="Ex :
-Lundi : développé couché 4×8 à 80 kg
-Mardi : squat 3×8, RIR 2
-Jeudi : tirage 4×10, repos 2 min"></textarea>
-        <div class="builder-examples"><span class="builder-example">Lundi : développé couché 4×8 à 80 kg</span><span class="builder-example">Mardi : squat 3×8, RIR 2</span><span class="builder-example">Jeudi : tirage 4×10</span></div>
-        <div class="builder-what-next">Après l’analyse, tu verras les séances et exercices compris par l’application avant de les enregistrer.</div>
-      </div>
+<textarea id="freeNoteInput" rows="10" placeholder="Exemple :&#10;Lundi : Développé couché 4×8 à 80 kg&#10;Mardi : Squat 3×8, RIR 2&#10;Jeudi : Tirage poitrine 4×10, repos 2 min"></textarea>
       <button class="btn secondary" onclick="parseFreeNote()">Analyser mon programme</button>
       <div id="parsedPreview" style="margin-top:16px;"></div>
       <div id="builderSaveArea" style="display:none; margin-top:8px;">
@@ -431,13 +426,14 @@ Jeudi : tirage 4×10, repos 2 min"></textarea>
   </div>
 
   <div class="navbar">
-    <button class="navbtn active" data-nav="accueil" onclick="goTo('accueil')"><span class="ic nav-symbol">⌂</span>Accueil</button>
-    <button class="navbtn" data-nav="seance" onclick="goTo('seance')"><span class="ic nav-symbol">▣</span>Séance</button>
-    <button class="navbtn" data-nav="progression" onclick="goTo('progression')"><span class="ic nav-symbol">↗</span>Progression</button>
+        <button class="navbtn active" data-nav="accueil" onclick="goTo('accueil')"><i data-lucide="home"></i> Accueil</button>
+        <button class="navbtn" data-nav="seance" onclick="goTo('seance')"><i data-lucide="dumbbell"></i> Séance</button>
+        <button class="navbtn" data-nav="progression" onclick="goTo('progression')"><i data-lucide="trending-up"></i> Progression</button>
   </div>
 </div>
 
 <script>
+  lucide.createIcons();
   // ============ PARSEUR (testé séparément avec Node avant intégration) ============
   function stripEmoji(s){ return s.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u27BF\uFE0F]/gu, '').trim(); }
   const weekdayNames = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
