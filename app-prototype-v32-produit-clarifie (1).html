@@ -6,13 +6,19 @@
 <title>Prototype — Appli Fitness v7 — Chrono réparé</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
-  :root{
-    --bg:#FAF6F0; --surface:#FFFFFF; --surface-alt:#F1EAE0;
-    --ink:#2B241F; --ink-soft:544A42; --line:#E7DFD3;
-    --sage:#3F7249; --sage-tint:#E3EFE2;
-    --gold:#DDA349; --gold-tint:#FBEEDA;
-    --coral:#C8564A; --coral-tint:#F6E3E0;
-  }
+css
+:root {
+    --bg: #FAFAF6;           /* Ton fond sable ultra-doux */
+    --surface: #FFFFFF;      /* Fond des cartes blanc pur */
+    --ink: #2B241F;          /* Texte principal très sombre pour le contraste */
+    --ink-soft: #544A42;     /* Texte secondaire lisible mais discret */
+    --line: #E7DFD3;         /* Bordures fines */
+    --primary: #4A7A96;      /* Ton bleu acier pour les boutons principaux */
+    --primary-light: rgba(74, 122, 150, 0.1);
+    --accent: #C8564A;       /* Ta touche corail pour l'IA et les highlights */
+    --radius: 12px;          /* Des angles arrondis modernes pour les cartes */
+    --shadow: 0 4px 12px rgba(44, 37, 32, 0.03); /* Ombres ultra-légères de tes maquettes */
+}
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0; padding:0; background:#EFE9DF; min-height:100%; width:100%;}
   body{ font-family:'Inter', sans-serif; display:flex; justify-content:center; align-items:stretch; min-height:100vh; color:var(--ink); overflow-x:hidden; }
@@ -27,14 +33,11 @@
   @media (max-width:700px){ .app{ width:100%; max-width:100%; } .scroll{padding-left:14px;padding-right:14px;} .day-tabs{padding-left:14px;padding-right:14px;} }
   h1.title{ font-family:'Quicksand'; font-weight:700; font-size:24px; color:var(--ink); margin:4px 0 4px; }
   .subtitle{ font-size:13px; color:var(--ink-soft); margin:0 0 18px; line-height:1.4; }
-  .card{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:15px; margin-bottom:12px; }
-  .card-label{ font-size:12px; color:var(--ink-soft); margin-bottom:6px; }
-  .btn{ display:inline-block; background:var(--sage); color:#fff; font-weight:600; font-size:15px; padding:14px 18px; border:none; border-radius:14px; text-align:center; width:100%; font-family:'Inter'; cursor:pointer; }
-  .btn.secondary{ background:var(--surface-alt); color:var(--ink); }
-  .btn.ghost{ background:transparent; color:var(--sage); border:1.5px solid var(--sage); }
-  .btn:disabled{ background:var(--surface-alt); color:var(--ink-soft); }
-  .navbar{ display:flex; padding:10px 10px 16px; gap:4px; background:var(--bg); border-top:1px solid var(--line); }
-  .navbtn{ flex:1; padding:9px 4px; text-align:center; background:none; border:none; color:var(--ink-soft); font-size:11px; cursor:pointer; border-radius:14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-weight: 600; font-size: 0.95rem; padding: 12px 20px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s ease; width: 100%; text-align: center; }
+.btn-primary { background: var(--primary); color: #ffffff; }
+.btn-secondary { background: var(--bg); color: var(--ink); border: 1px solid var(--line); }
+.btn-text { background: transparent; color: var(--primary); font-weight: 500; text-decoration: underline; width: auto; padding: 4px 8px; }
   .navbtn .ic{ display:block; font-size:19px; margin-bottom:3px; }
   .navbtn.active{ color:var(--sage); background:var(--sage-tint); }
   .weight-toggle{ background:var(--surface-alt); border:1px solid var(--line); color:var(--ink); border-radius:10px; padding:8px 10px; font-size:11px; cursor:pointer; }
