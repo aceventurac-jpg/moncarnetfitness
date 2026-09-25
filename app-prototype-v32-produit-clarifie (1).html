@@ -8,7 +8,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
   :root{
     --bg:#FAF6F0; --surface:#FFFFFF; --surface-alt:#F1EAE0;
-    --ink:#2B241F; --ink-soft:#8A7F72; --line:#E7DFD3;
+    --ink:#2B241F; --ink-soft:544A42; --line:#E7DFD3;
     --sage:#3F7249; --sage-tint:#E3EFE2;
     --gold:#DDA349; --gold-tint:#FBEEDA;
     --coral:#C8564A; --coral-tint:#F6E3E0;
@@ -3181,7 +3181,14 @@ document.head.insertAdjacentHTML('beforeend', `<style id="v30-progression-css">
       const el = document.getElementById('progressionContent');
       if (!el) return;
       const p = state.userProfile || {};
-      el.innerHTML = `<div class="card progression-welcome"><h2>Ta progression commencera ici</h2><p>Après tes premières séances, cet espace rassemblera les éléments utiles pour suivre ton évolution.</p><ul><li>performances par exercice ;</li><li>évolution des charges, répétitions et volume ;</li><li>ressenti et bilan des séances ;</li><li>analyse et repères pour les séances suivantes.</li></ul></div><div class="card"><div class="card-label">Profil</div><div class="progression-note">Tu peux déjà renseigner ton profil. Ces informations restent modifiables et servent uniquement de contexte.</div><div class="profile-grid"><label>Âge<input id="profileAge" type="number" min="0" value="${esc(p.age||'')}" placeholder="ans"></label><label>Poids (kg)<input id="profileWeight" type="number" min="0" step="0.1" value="${esc(p.weight||'')}"></label><label>Taille (cm)<input id="profileHeight" type="number" min="0" step="1" value="${esc(p.height||'')}"></label><label>Masse grasse (%)<input id="profileBodyFat" type="number" min="0" max="100" step="0.1" value="${esc(p.bodyFat||'')}"></label></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button type="button" class="btn secondary" onclick="saveUserProfile()">Enregistrer les données</button><span id="profileSaved" style="font-size:12px;color:#51745a"></span></div></div>`;
+el.innerHTML = `<div class="card card-empty">
+  <div class="card-icon">📈</div>
+    <div class="card-content">
+        <h3>Aucune performance enregistrée</h3>
+        <p class="text-soft">C'est ici que s'afficheront vos graphiques de volume, vos tendances de force et l'analyse de vos séances après votre premier entraînement.</p>
+    </div>
+</div>
+`;
       return;
     }
     originalProgressionScreen();
