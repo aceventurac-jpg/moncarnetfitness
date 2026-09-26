@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mon Carnet Fitness — Version Épurée</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        :root {
+            --bg: #FAFAF6;           /* Fond sable ultra-doux officiel */
+            --surface: #FFFFFF;      /* Fond des cartes blanc pur */
+            --ink: #2B241F;          /* Texte principal très sombre pour le contraste */
+            --ink-soft: #6A6058;     /* Texte secondaire lisible mais discret */
+            --line: #E7DFD3;         /* Bordures fines sable */
+            --primary: #2C4A3E;      /* Vert sauge foncé premium de la maquette */
+            --primary-light: #EDF3EF;/* Fond vert clair */
+            --accent: #C8564A;       /* Touche corail douce pour les indicateurs */
+            --radius: 16px;          
+            --shadow: 0 4px 16px rgba(44, 37, 32, 0.02);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #EFE9DF;
+            color: var(--ink);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Châssis de l'application type Smartphone pour préserver l'UX sur PC */
+        .app-shell {
+            width: 100%;
+            max-width: 412px;
+            height: 840px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 16px 48px rgba(43, 36, 32, 0.12);
+            border-radius: 36px;
+            overflow: hidden;
+            border: 8px solid #2B241F;
+        }
+
+        /* Zone de défilement du contenu */
+        .content-view {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 96px;
+        }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* Typographies & Hiérarchie */
+        h1.title { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 24px; color: var(--ink); margin-bottom: 4px; }
+        .subtitle { font-size: 13px; color: var(--ink-soft); margin-bottom: 22px; line-height: 1.4; }
+        h2.section-heading { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 17px; margin: 24px 0 12px; color: var(--ink); }
+
+        /* Cartes & Éléments visuels */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 14px;
+        }
+
+        .card-focus {
+            background: var(--primary-light);
+            border: 1px solid rgba(44, 74, 62, 0.12);
+        }
+
+        /* Composants de boutons cohérents */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.15s, transform 0.1s;
+        }
+        .btn:active { transform: scale(0.99); opacity: 0.95; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+        .btn-link { background: transparent; color: var(--primary); font-size: 13px; text-decoration: underline; width: auto; padding: 4px; }
+
+        /* Grille épurée pour les indicateurs de l'accueil */
+        .stats-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+        .stat-item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 10px; text-align: center; }
+        .stat-item .lbl { font-size: 11px; color: var(--ink-soft); font-weight: 500; margin-bottom: 4px; }
+        .stat-item .val { font-size: 15px; font-weight: 700; color: var(--ink); }
+
+        /* Zone de texte pour l'import de programme libre */
+        .textarea-freeform {
+            width: 100%;
+            height: 190px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--ink);
+            resize: none;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+        .guide-box { background: #F3EEE5; padding: 14px; border-radius: 12px; margin-bottom: 16px; font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+        .guide-box ul { padding-left: 16px; margin-top: 6px; }
+
+        /* Écran d'exécution de séance */
+        .workout-tracker { margin: 16px 0; }
+        .set-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #F5F1E9; border-radius: 10px; margin-bottom: 8px; font-size: 13px; }
+        .set-row.current { background: var(--surface); border: 1px solid var(--primary); font-weight: 600; }
+        .set-row.completed { background: #EDF3EF; color: var(--primary); }
+        .badge-status { font-weight: 600; font-size: 12px; }
+
+        .countdown-box { font-size: 38px; font-weight: 700; text-align: center; margin: 18px 0; color: var(--primary); font-family: monospace; }
+
+        /* États vides valorisants (Pas de cimetière de graphiques) */
+        .placeholder-state { text-align: center; padding: 32px 16px; color: var(--ink-soft); }
+        .placeholder-state svg { color: var(--line); margin-bottom: 12px; }
+        .placeholder-state p { font-size: 13px; line-height: 1.5; margin-top: 4px; }
+
+        /* Barre de navigation basse harmonisée (Sans doublons d'univers IA) */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 76px;
+            background: var(--surface);
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 12px;
+            z-index: 10;
+        }
+        .nav-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--ink-soft);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 72px;
+            gap: 5px;
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-tab svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+        .nav-tab.active { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div class="app-shell">
+        <div class="content-view">
+            
+            <!-- 1. ACCUEIL (CENTRE DE GRAVITÉ : SÉANCE DU JOUR) -->
+            <div id="scr-accueil" class="screen active">
+                <h1 class="title">Bonjour Thomas</h1>
+                <div class="subtitle">Semaine 2 · Reprise en douceur</div>
+
+                <div class="card card-focus">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Routine d'aujourd'hui</div>
+                    <h3 style="font-family:'Quicksand'; font-size: 21px; margin-bottom: 4px;">Full Body — Routine A</h3>
+                    <p style="font-size: 13px; color: var(--ink-soft); margin-bottom: 18px;">3 exercices · Environ 35 minutes</p>
+                    <button class="btn btn-primary" onclick="routeTo('seance')">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Démarrer la séance
+                    </button>
+                </div>
+
+                <h2 class="section-heading">Suivi de tes mesures</h2>
+                <div class="stats-summary">
+                    <div class="stat-item">
+                        <div class="lbl">Poids de corps</div>
+                        <div class="val">72,4 kg</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="lbl">Tour de taille</div>
+                        <div class="val">84 cm</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="lbl">Dernier entraînement</div>
+                        <div class="val">Il y a 2j</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn-link" onclick="routeTo('programme')">Modifier ou remplacer mon programme actuel</button>
+                </div>
+            </div>
+
+            <!-- 2. PROGRAMME (LE POINT DIFFÉRENCIATEUR : IMPORTATION SANS FRICTION) -->
+            <div id="scr-programme" class="screen">
+                <h1 class="title">Mon Programme</h1>
+                <div class="subtitle">Pas de configuration fastidieuse exercice par exercice. Colle le texte de ton choix, l'application crée ta structure.</div>
+
+                <div class="guide-box">
+                    <strong>💡 Exemples de saisie acceptée :</strong>
+                    <ul>
+                        <li>"Lundi : Squat Goblet 3x10 à 16kg, Pompes 3x12"</li>
+                        <li>"Jour 1 - Soulevé de terre : 4 séries de 8 répétitions"</li>
