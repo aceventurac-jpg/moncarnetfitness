@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mon Carnet Fitness — Version Épurée</title>
+    <title>Mon Carnet Fitness</title>
     <style>
         @import url('https://googleapis.com');
 
         :root {
-            --bg: #FAFAF6;           /* Fond sable ultra-doux officiel */
-            --surface: #FFFFFF;      /* Fond des cartes blanc pur */
-            --ink: #2B241F;          /* Texte principal très sombre pour le contraste */
-            --ink-soft: #6A6058;     /* Texte secondaire lisible mais discret */
-            --line: #E7DFD3;         /* Bordures fines sable */
-            --primary: #2C4A3E;      /* Vert sauge foncé premium de la maquette */
-            --primary-light: #EDF3EF;/* Fond vert clair */
-            --accent: #C8564A;       /* Touche corail douce pour les indicateurs */
+            --bg: #FAFAF6;           
+            --surface: #FFFFFF;      
+            --ink: #2B241F;          
+            --ink-soft: #6A6058;     
+            --line: #E7DFD3;         
+            --primary: #2C4A3E;      
+            --primary-light: #EDF3EF;
+            --accent: #C8564A;       
             --radius: 16px;          
             --shadow: 0 4px 16px rgba(44, 37, 32, 0.02);
         }
@@ -32,11 +32,10 @@
             min-height: 100vh;
         }
 
-        /* Châssis de l'application type Smartphone pour préserver l'UX sur PC */
         .app-shell {
             width: 100%;
             max-width: 412px;
-            height: 840px;
+            height: 780px; /* Ajusté pour éviter de déborder sur les petits écrans */
             background: var(--bg);
             display: flex;
             flex-direction: column;
@@ -47,7 +46,6 @@
             border: 8px solid #2B241F;
         }
 
-        /* Zone de défilement du contenu */
         .content-view {
             flex: 1;
             overflow-y: auto;
@@ -57,12 +55,10 @@
         .screen { display: none; }
         .screen.active { display: block; }
 
-        /* Typographies & Hiérarchie */
         h1.title { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 24px; color: var(--ink); margin-bottom: 4px; }
         .subtitle { font-size: 13px; color: var(--ink-soft); margin-bottom: 22px; line-height: 1.4; }
         h2.section-heading { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 17px; margin: 24px 0 12px; color: var(--ink); }
 
-        /* Cartes & Éléments visuels */
         .card {
             background: var(--surface);
             border: 1px solid var(--line);
@@ -77,7 +73,6 @@
             border: 1px solid rgba(44, 74, 62, 0.12);
         }
 
-        /* Composants de boutons cohérents */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -96,15 +91,13 @@
         .btn:active { transform: scale(0.99); opacity: 0.95; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
-        .btn-link { background: transparent; color: var(--primary); font-size: 13px; text-decoration: underline; width: auto; padding: 4px; }
+        .btn-link { background: transparent; color: var(--primary); font-size: 13px; text-decoration: underline; width: auto; padding: 4px; border: none; cursor: pointer; }
 
-        /* Grille épurée pour les indicateurs de l'accueil */
         .stats-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
         .stat-item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 10px; text-align: center; }
         .stat-item .lbl { font-size: 11px; color: var(--ink-soft); font-weight: 500; margin-bottom: 4px; }
         .stat-item .val { font-size: 15px; font-weight: 700; color: var(--ink); }
 
-        /* Zone de texte pour l'import de programme libre */
         .textarea-freeform {
             width: 100%;
             height: 190px;
@@ -112,7 +105,7 @@
             border: 1px solid var(--line);
             border-radius: 12px;
             padding: 14px;
-            font-family: 'Inter', sans-serif;
+            font-family: inherit;
             font-size: 13px;
             color: var(--ink);
             resize: none;
@@ -122,7 +115,6 @@
         .guide-box { background: #F3EEE5; padding: 14px; border-radius: 12px; margin-bottom: 16px; font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
         .guide-box ul { padding-left: 16px; margin-top: 6px; }
 
-        /* Écran d'exécution de séance */
         .workout-tracker { margin: 16px 0; }
         .set-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #F5F1E9; border-radius: 10px; margin-bottom: 8px; font-size: 13px; }
         .set-row.current { background: var(--surface); border: 1px solid var(--primary); font-weight: 600; }
@@ -131,12 +123,10 @@
 
         .countdown-box { font-size: 38px; font-weight: 700; text-align: center; margin: 18px 0; color: var(--primary); font-family: monospace; }
 
-        /* États vides valorisants (Pas de cimetière de graphiques) */
         .placeholder-state { text-align: center; padding: 32px 16px; color: var(--ink-soft); }
         .placeholder-state svg { color: var(--line); margin-bottom: 12px; }
         .placeholder-state p { font-size: 13px; line-height: 1.5; margin-top: 4px; }
 
-        /* Barre de navigation basse harmonisée (Sans doublons d'univers IA) */
         .bottom-nav {
             position: absolute;
             bottom: 0;
@@ -174,7 +164,7 @@
     <div class="app-shell">
         <div class="content-view">
             
-            <!-- 1. ACCUEIL (CENTRE DE GRAVITÉ : SÉANCE DU JOUR) -->
+            <!-- 1. ACCUEIL -->
             <div id="scr-accueil" class="screen active">
                 <h1 class="title">Bonjour Thomas</h1>
                 <div class="subtitle">Semaine 2 · Reprise en douceur</div>
@@ -184,7 +174,7 @@
                     <h3 style="font-family:'Quicksand'; font-size: 21px; margin-bottom: 4px;">Full Body — Routine A</h3>
                     <p style="font-size: 13px; color: var(--ink-soft); margin-bottom: 18px;">3 exercices · Environ 35 minutes</p>
                     <button class="btn btn-primary" onclick="routeTo('seance')">
-                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Démarrer la séance
+                        <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:white;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Démarrer la séance
                     </button>
                 </div>
 
@@ -209,13 +199,29 @@
                 </div>
             </div>
 
-            <!-- 2. PROGRAMME (LE POINT DIFFÉRENCIATEUR : IMPORTATION SANS FRICTION) -->
+            <!-- 2. PROGRAMME -->
             <div id="scr-programme" class="screen">
                 <h1 class="title">Mon Programme</h1>
-                <div class="subtitle">Pas de configuration fastidieuse exercice par exercice. Colle le texte de ton choix, l'application crée ta structure.</div>
+                <div class="subtitle">Pas de configuration fastidieuse. Colle le texte de ton choix, l'application crée ta structure.</div>
 
                 <div class="guide-box">
                     <strong>💡 Exemples de saisie acceptée :</strong>
                     <ul>
                         <li>"Lundi : Squat Goblet 3x10 à 16kg, Pompes 3x12"</li>
                         <li>"Jour 1 - Soulevé de terre : 4 séries de 8 répétitions"</li>
+                    </ul>
+                </div>
+
+                <textarea class="textarea-freeform" id="import-text" placeholder="Ex: Lundi - Fullbody&#10;3x10 Goblet Squat (16kg)&#10;3x12 Pompes inclinées"></textarea>
+
+                <button class="btn btn-primary" onclick="parseProgramme()">
+                    <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:white;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path></svg> Valider mon programme
+                </button>
+            </div>
+
+            <!-- 3. SÉANCE -->
+            <div id="scr-seance" class="screen">
+                <h1 class="title">Séance en cours</h1>
+                <div class="subtitle">Valide tes performances réelles. L'application n'invente aucune donnée.</div>
+
+                <div class="card">
